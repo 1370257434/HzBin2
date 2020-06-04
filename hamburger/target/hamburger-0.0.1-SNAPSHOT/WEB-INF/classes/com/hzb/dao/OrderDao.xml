@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzb.dao.OrderDao">
+
+	<insert id="addOneOrder" parameterType="orderItem">
+		INSERT INTO
+		order_item
+		(user_id,food_id,quantity,this_price,creat_time)
+		VALUES(#{userId},#{foodId},#{quantity},#{foodPrice},now())
+	</insert>
+	
+	
+	<select id=" getOrderByUserId" parameterType="int"
+		resultType="orderItem">
+		SELECT
+		orders.id 'id',user_id 'userId',food_id
+		'foodId',
+		quantity,name 'foodName',
+		main_image 'foodMainImage',price 'foodPrice',
+		
+		FROM orders,myfood
+		WHERE order.food_id =
+		myfood.id
+		AND user_id = #{value}
+	</select>
+	
+	
+</mapper>

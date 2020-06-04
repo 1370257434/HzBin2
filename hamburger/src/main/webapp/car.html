@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>蟹堡王购物车</title>
+		<link rel="stylesheet"  href="css/car.css" type="text/css" />
+		<link rel="stylesheet"  href="css/bootstrap.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/bootstrap-responsive.css" type="text/css" /> 
+		<script src="js/jquery-1.8.2.min.js"></script>
+
+<script src="js/jquery.easing.1.3.js"></script>
+
+<script src="js/jquery.flexslider.js"></script>
+<script src="js/jquery.elastislide.js"></script>
+<script src="js/jquery.jcarousel.min.js"></script>
+<script src="js/jquery.accordion.js"></script>
+<script src="js/light_box.js"></script>
+				
+	</head>
+	
+	<body>
+		
+	<div class="left">
+		<div id="l-top">
+		      <img src="img/logo.jpg" />  
+		      <h4>蟹堡王</h4>
+		</div>
+		<div id="l-user">
+			<p>服务员编号：</p>
+			<hr />
+			<p>台号:</p>
+		</div>
+		<div id="l-menu">
+			
+				<div><a href="index.html">新品尝鲜</a> </div>
+			<div><a href="index.html?cId=6">经典套餐</a> </div>
+			<div><a href="car.html">已选</a> </div>
+			<div><a href="#">订单</a> </div>
+			
+		</div>
+		<div id="l-botton" style="background:url(img/exit.jpg); width: 28px; height:26px; background-size: 100% 100%;">
+			
+			<a href="login.html" style="color:gray;height:100%"></a>
+		</div>
+	</div>
+		
+		<div class="mycar"> 
+			<div id="mycarlist">
+			<h2>已选菜单</h2>
+			<table width="100%" style="text-align:left">
+				<thead>
+					
+					<th>菜品</th>
+					<th>单价</th>
+					<th>数量</th>
+					<th>小计</th>
+					<th>操作</th>
+				</thead>
+				<tbody id="cartBody">
+					<!-- <tr>
+						<td><input type="checkbox"></td>
+						<td width="45%">
+						<img src="/upload/01.jpg" style="height:80px">
+						<span style="margin-left:10px">这是蟹黄堡这是蟹黄堡</span></td>
+						<td>9.99</td>
+						<td>2</td>
+						<td>30.99</td>
+						<td>删除</td>
+					</tr>			 -->
+				
+				</tbody>
+			</table>
+			<div style="height:100px ;width:100%"></div>
+			<div id="allPrice" style="position:relative; bottom: 30px; right: 50px;text-align:right;">
+			
+			<div id="AllPrice" ></div>
+			<div class='pro-detail' style='line-height:35px; left: 20px;
+position: relative;'><a class='abtn' href="order.html" >确认订单</a></div>
+			</div>
+		</div>
+				
+	</div>
+	
+	
+	
+	
+			
+	
+	</body>
+	<script type="text/javascript">
+	
+		function deletePro(cartid){
+			$.ajax({
+				type:"post",
+				url:"portal/cart/delete.do",
+				data:{
+					cartId:cartid
+				},
+				dataType:"json",
+				success:function(response){
+					
+					if(response.status == 1){
+						showCartList();
+					}
+				}
+			})
+			
+		}
+	
+	
+	
+	
+	
+		function showCartList(){
+			
+			$("#cartBody").empty();
+			$.ajax({
+				type:"post",
+				url:"portal/cart/list.do",
+				
+				dataType:"json",
+				success:function(response){
+				console.log(response);
+					if(response.status ==0){
+						alert("请您先登录");
+						window.location.href = "login.html";
+					}
+					var carts = response.data.cartFoodVolist;
+					for(var i=0;i<carts.length;i++){
+						var trCart = $("<tr></tr>");
+						/* if(carts[i].foodChecked ==1){
+							trCart.append("<td><input type='checkbox' checked='true'  onclick='check(this,"+carts[i].id+","+carts.length+")' /></td>");
+						
+							 }else{
+								 trCart.append("<td><input type='checkbox' onclick='check(this,"+carts[i].id+","+carts.length+")' /></td>");
+								} */
+						trCart.append("<td><img style='height:75px; width:90px; border:solid 1px yellow' src='"+response.data.imageHost+"/"+carts[i].foodMainImage+"'/><span style='margin-left:10px'>"+carts[i].foodName+"</span></td>");
+						trCart.append("<td>"+carts[i].foodPrice+"</td>");
+						/* trCart.append("<td>"+carts[i].quantity+"</td>"); */
+						trCart.append("<td><a class='option' onclick='nextOpt(this,"+carts[i].id+")' onselectstart='return false'>-</a><span>"+carts[i].quantity+"</span><a class='option' onclick='nextOption(this,"+carts[i].id+")'>+</a></td>");
+						trCart.append("<td>"+carts[i].foodTotalPrice+"</td>");
+						trCart.append("<td><a onclick='deletePro("+carts[i].id+")'>删除</a></td>");
+						
+						$("#cartBody").append(trCart);
+						}
+						$("#AllPrice").text("总计：￥"+response.data.cartTotalPrice);
+					}
+						
+			})
+		}
+	
+	
+		showCartList();
+	
+	
+	 function nextOption(a,cartid){
+		
+		var qua = $(a).prev().text();
+		
+		qua = parseInt(qua) + 1;
+		$(a).prev().text(qua);
+		$.ajax({
+			type:"post",
+			url:"portal/cart/update.do",
+			data:{
+				cartId:cartid,
+				count:qua
+			},
+			dataType:"json",
+			success:function(response){
+				
+					if(response.status ==1){
+						showCartList();
+				}else{
+					alert("修改失败，请重新尝试");
+				}
+				}
+		})
+	} 
+	
+	 function nextOpt(a,cartid){
+		var qua = $(a).next().text();
+		qua = parseInt(qua) - 1;
+		if(qua <= 1){
+			$(a).next().text(1);
+			return;
+		}
+		$(a).next().text(qua);
+		$.ajax({
+			type:"post",
+			url:"portal/cart/update.do",
+			data:{
+				cartId:cartid,
+				count:qua
+			},
+			dataType:"json",
+			success:function(response){
+				
+					if(response.status ==1){
+						showCartList();
+				}else{
+					alert("修改失败，请重新尝试");
+				}
+				}
+		})
+	} 
+	
+	 
+	 function check(input,cartid,length){
+		
+			var Cd = $("input").prop("checked");
+			if(Cd==false){
+				cd = 0;
+			}else if(Cd==true){
+				cd = 1;
+			} 
+		
+		console.log(length);
+		console.log(Cd);
+		console.log(cd); 
+		console.log(cartid);
+		
+		 $.ajax({
+				type:"post",
+				url:"portal/cart/check.do",
+				data:{
+					cartId:cartid,
+					check:cd
+				},
+				dataType:"json",
+				success:function(response){
+					
+					/* console.log(response); */
+		} 
+			 })
+	 }
+	</script>
+</html>

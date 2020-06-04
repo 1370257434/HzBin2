@@ -1,0 +1,16 @@
+.left{
+	background-color: beige;
+	padding-left: 19%;
+	padding-right: 5%;
+}
+.main{
+	background-color: beige;
+	margin-left: 13%;
+	padding: 10px;
+}
+
+#newUserModal .cc{
+	width: 620px;
+	margin-right: 25px;
+}
+

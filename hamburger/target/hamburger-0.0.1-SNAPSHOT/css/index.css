@@ -1,0 +1,297 @@
+*{
+    margin:0;
+    padding:0;
+}
+a{
+	text-decoration:none;
+	display:block;
+}
+#pages:hover{
+	cursor: pointer;
+}
+li{
+    list-style:none
+}
+img{
+    vertical-align:top;
+    border:none;
+}
+
+.left{
+	
+	background-color:#2e3442 ;
+	height: 100%;
+	width: 20%;
+	position:absolute;
+	left: 0px;
+	top: 0px;
+	
+}
+.top{
+	background: #2e3442;
+	color: yellow;
+	height: 17%;
+	width: 80%;
+	position:fixed;
+	right: 0px;
+	top: 0px;
+	
+
+}
+.top ul{
+      bottom: 0px;
+	position: absolute;
+
+	
+}
+.top ul li{
+	font-size: 20px;
+	float: left;
+	width: 170px;
+	height: 40px;
+	text-align: center;
+	border-radius: 5px;
+	}
+.search{
+	bottom: 5px;
+	right: 50px;
+	position: absolute;
+}
+
+.top ul li:hover{
+        background: gray;
+	    cursor: pointer;}
+
+.top ul li a{
+	color:yellow;
+	height: 100%;
+width: 100%;
+}
+.top .search div{
+	float: left;
+}
+.top .search input{
+	
+        width: 170px;
+
+        border: 1px solid #e2e2e2;
+
+        height: 25px;
+
+        background-image:url(../img/search.jpg);
+
+        background-repeat: no-repeat;
+
+        background-size: 25px;
+
+        background-position:0px, center;
+
+        padding:0 0 0 30px;
+        
+        border-radius: 10px;
+
+    }
+.top .search div{
+
+       margin-left: 5px;
+          cursor: pointer;
+
+    }
+	
+
+.pro-img{
+	height:100%;
+	width:65%;
+}	
+.main{
+	background:#f6f5ec;
+	
+	
+    color: #f2eada;
+	height: 83%;
+	width: 80%;
+	position:fixed;
+	bottom: 0px;
+	right: 0px;	
+}
+.main .m-top{
+	height:42%;
+	width: 100%;
+	position: relative;
+	padding-left:25px;
+	padding-top:10px;
+	
+	
+	
+}
+.main .m-top li{
+	width: 29%;
+	height: 88%;
+	background-color: #2e3442;
+	float: left;
+	
+	margin: 15px;
+	
+}
+.main .m-middle{
+	height:42%;
+	width: 100%;
+	position: relative;
+	
+}
+.main .m-middle li{
+	width: 27%;
+	height: 75%;
+	background-color: palegoldenrod;
+	float: left;
+	margin: 3%;
+	
+}
+.main .m-page{
+	height:10%;
+	width: 100%;
+	position: relative;
+	
+}
+
+.pagination{
+	position:fixed;
+	bottom:1%;
+	left:53%;
+}
+
+ #l-top{
+   text-align: center;
+    color: yellow;
+	width: 100%;
+	position:absolute;
+	top: 0px
+	
+}
+ #l-top img{
+	
+	width:45%;
+	max-height: 100%;
+	max-width: 100%;
+}
+
+
+
+#l-user{
+	
+	color:whitesmoke;
+	
+	width: 100%;
+	position:absolute;
+    top: 17%;
+    margin-top: 50px;
+	
+		
+}
+
+#l-user hr{
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+#l-user p{
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+#mainfood ul li p{
+	margin-top: 20px;
+	margin-bottom: 5px;
+	margin-left: 20px;}
+
+
+#l-menu{
+	
+	height: 50%;
+	width: 100%;
+	position:absolute;
+	bottom: 5%;
+
+	
+	
+	
+}
+#l-menu div{
+	margin: 0px;
+	padding: 10px;
+	height: 30px;
+	text-align: center;
+	border-bottom: groove;
+	border-top: groove;
+	
+	margin-bottom: -2px;
+
+}
+#l-menu div p{
+	text-align: center;
+	margin: 5px;0px;
+	color: yellow;
+}
+#l-menu div:hover{
+	background: gray;
+	    cursor: pointer;
+}
+#l-menu a{
+	color:yellow;
+	height: 100%;
+width: 100%;
+}
+.pro-detail {
+	height: 15%;
+    width: 25%;
+    text-align: center;
+    float: right;
+    margin-top: 10px;
+    margin-right: 9%;
+    background: yellow;
+    border-radius: 5px;
+   
+   
+}
+.pro-detail a{
+	height:100%;
+	width:100%;
+}
+
+
+#l-botton{
+	
+	color: grey;
+	width: 65px;
+	height: 35px;
+	position:absolute;
+	bottom: 0px;
+	
+}
+#l-botton:hover{
+	cursor: pointer;
+}
+
+#l-botton img{
+	float: left;
+	bottom: 0px;
+	width: 25px;
+	height: 25px;
+	max-height: 100%;
+	max-width: 100%;
+}
+#l-botton p{
+	
+	font-size: 15px;
+	margin-right: 0px;
+	margin-left: 30px;
+	margin-top: 0px;
+
+}
+
+#pages{
+	background:yellow;
+}
+

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzb.dao.FoodDao">
+
+	<select id="pageQueryPro" resultType="food">
+		SELECT * FROM   myfood 
+		
+		order by create_time desc
+	</select>
+	
+	<!-- 根据菜品名查询商品 -->
+	<select id="searchProByPage" resultType="food" parameterType="food">
+		SELECT * FROM myfood
+		<where>
+		<if test="name != null">
+			AND name LIKE '%${name}%'
+		</if>
+		</where>
+	</select>
+	
+	<!-- 新增菜品 -->
+	<insert id="addOneFood" parameterType="food">
+		INSERT INTO myfood
+		(category_id,name,detail,main_image,sub_image,price,stock,create_time)
+		VALUES
+		(#{category_id},#{name},#{detail},#{main_image},#{sub_image},#{price},#{stock},NOW())
+	</insert>
+	
+	<update id="updateOneFood" parameterType="food">
+		UPDATE myfood
+		SET category_id = #{category_id},
+		name = #{name},
+		detail = #{detail},
+		main_image = #{main_image},
+		price = #{price},
+		stock = #{stock}
+		
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+	
+	
+	<delete id="removeFood" parameterType="int">
+		DELETE FROM myfood
+		WHERE id = #{pId}
+	</delete>
+	
+	
+	
+	
+	
+	
+	<!-- 根据类别ID 和  菜品名查询菜品 -->
+	<select id="queryProByCIdAndKeyWord" parameterType="food" resultType="food">
+		SELECT * FROM
+		myfood
+		<where>
+			
+			<if test="category_id != null">
+				AND category_id = #{category_id}
+				
+			</if>
+			<if test="name != null">
+				AND name LIKE '%${name}%'
+			</if>
+			
+			
+			  
+		</where>
+		
+		ORDER BY create_time DESC
+	</select>
+	
+	<!-- 根据id查询菜品信息 -->
+	<select id="queryProInfoByPid" parameterType="int" resultType="food">
+		SELECT * FROM
+		myfood
+		WHERE id = #{value}
+	</select>
+
+</mapper>

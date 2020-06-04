@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>菜单列表后台</title>
+		<link rel="stylesheet"  href="css/bootstrap.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/bootstrap-responsive.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/a_food.css" type="text/css" /> 
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.js"></script>
+	</head>
+	<body>
+		<div class="left">
+		<nav class="left ">
+					<ul class="nav nav-tabs">
+						<li><a href="index.html?cId=1" class="active"><i
+								class="batch home "></i><br />餐厅前台主页</a></li>
+						<li><a href="a-admin.html"><i class="batch stream"></i><br />管理员列表</a></li>
+						<li><a href="a-user.html"><i class="batch users"></i><br />用户列表</a></li>
+						
+						<li><a href="a_food.html"><i class="batch quill"></i><br />菜品列表</a></li>
+						<!-- <li><a href="orders.html"><i class="batch plane"></i><br />订单列表</a></li> -->
+						
+					</ul>
+		</nav>
+		</div>
+		<div class="span12 main">
+						<a href="./a_foodadd.html"  class="btn pull-right">添加新菜品</a>
+						<h4 class="header">菜品列表</h4>
+						<form action="search_product_simple_complete.html" method="post">
+							<input id="keywords" type="text" name="keywords" class="form-control" placeholder="请输入搜索关键字">&nbsp;
+							<input id="search" class="btn btn-info" type="button" value="搜索">
+						</form>
+						<table   class="table table-striped sortable">
+							<thead>
+								<tr>
+									<th>所属类别</th>
+									<th>菜品ID</th>
+									<th>菜品名称</th>
+									<th>菜品描述</th>
+									<th>菜品价格</th>
+									<th>菜品主图</th>
+									<th>菜品库存</th>
+									<th>上架日期</th>
+									<th>操作</th>
+									
+									
+								</tr>
+							</thead>
+							<tbody id="tb">
+								
+								
+								
+								
+							</tbody>
+						</table>
+						<div class="pagination pagination-centered">
+							<ul id="pages">
+								<!-- <li class="disabled"><a href="#">&laquo;</a></li>
+								<li class="active"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">&raquo;</a></li> -->
+							</ul>
+						</div>
+					</div>
+					
+					
+					
+					
+		<script src="js/jquery.min.js"></script>
+		<script>
+			
+		//分装分页方法
+		function page(pn){
+			
+			var currentPage = pn;
+			 
+			$.ajax({
+				type:"post",
+				url:"manage/food/list.do",
+				data:{
+					pageNum:pn,
+					pageSize:"5"
+				},
+				dataType:"json",
+				success:function(response){
+					var data = response.data.list;
+					$("#tb").empty();
+					for(var i=0;i<data.length;i++){
+						var tablerow = $("<tr></tr>");
+						var cateVal;
+						switch(data[i].category_id){
+							case 1:
+								cateVal="主食";
+								break;
+							case 2:
+								cateVal="汤类";
+								break;
+							case 3:
+								cateVal="小食";
+								break;
+							case 4:
+								cateVal="甜品";
+								break;
+							case 5:
+								cateVal="饮料";
+								break;
+							case 6:
+								cateVal="套餐";
+								break;
+						}
+						tablerow.append("<td>"+cateVal+"</td>");
+						tablerow.append("<td>"+data[i].id+"</td>")
+						tablerow.append("<td>"+data[i].name+"</td>");
+						tablerow.append("<td>"+data[i].detail+"</td>");
+						tablerow.append("<td>"+data[i].price+"</td>")
+						tablerow.append("<td><img style='height:55px;width:70px' src=/upload/"+data[i].main_image+"></img></td>")
+						tablerow.append("<td>"+data[i].stock+"</td>")
+						tablerow.append("<td>"+data[i].create_time+"</td>")
+						tablerow.append("<div class='btn-group'><button class='btn'>操作</button><button data-toggle='dropdown' class='btn dropdown-toggle'><span class='caret'></span></button><ul class='dropdown-menu'><li><a href='a_foodupdate.html?"+data[i].id+"'>修改</a> <a onclick='deletefood("+data[i].id+")' id='deleteFood'>删除</a></li></ul></div>")
+						
+						$("#tb").append(tablerow);
+					}
+					$("#pages").empty();
+					var nums = response.data.navigatepageNums;
+					if(currentPage == response.data.firstPage){
+						$("#pages").append("<li class='disabled'><a href='#'>&laquo;</a></li>");
+					}else{
+						$("#pages").append("<li onclick = 'page("+(currentPage-1)+")'><a href='#'>&laquo;</a></li>");
+					}
+				
+					for(var i=0;i<nums.length;i++){
+						$("#pages").append("<li  onclick =' page("+nums[i]+")'><a>"+nums[i]+"</a></li>");
+					}
+					if(currentPage ==  response.data.lastPage){
+						$("#pages").append("<li class='disabled'><a href='#'>&raquo;</a></li>");
+					}else{
+						$("#pages").append("<li onclick = 'page("+(currentPage+1)+")'><a href='#'>&raquo;</a></li>");
+					}
+				}
+				
+				
+			})
+			
+		}
+		page(1);
+		
+		 $("#search").click(function(){
+			
+			var keyVal = $("#keywords").val();
+			if(null == keyVal || "" == keyVal || keyVal.length == 0 ){
+				alert("您还没有输入关键字");
+				return;
+				
+			}
+			
+			var uri = encodeURI("a_foodsearch.html?keywords="+keyVal);
+			window.location.href = uri;
+			
+			
+			
+		})
+		
+	
+		function deletefood(pid){
+			 if(confirm("确定要删除吗？")){
+				 
+				 $.ajax({
+						type:"post",
+						url:"manage/food/delete.do",
+						data:{
+							pId:pid
+						},
+						dataType:"json",
+						success:function(response){
+							
+							if(response.status == 1){
+								page(1);
+							}
+						}
+					})
+					return true;	
+				 
+			 }else{
+				 return false;
+			 }
+			
+		}
+		 
+			
+
+		
+		
+		</script>
+		
+	</body>
+</html>

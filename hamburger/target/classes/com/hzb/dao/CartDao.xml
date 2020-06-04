@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzb.dao.CartDao">
+
+	<insert id="addOneCartFood" parameterType="cartFoodVo">
+		INSERT INTO
+		cart
+		(user_id,food_id,quantity,checked,creat_time)
+		VALUES(#{userId},#{foodId},#{quantity},1,now())
+	</insert>
+	
+		
+	<select id="getCartFoodByUserId" parameterType="int"
+		resultType="cartFoodVo">
+		SELECT
+		cart.id 'id',user_id 'userId',food_id
+		'foodId',
+		quantity,name 'foodName',
+		main_image 'foodMainImage',price 'foodPrice',
+		stock 'foodStock',checked 'foodChecked'
+		FROM cart,myfood
+		WHERE cart.food_id =
+		myfood.id
+		AND user_id = #{value}
+	</select>
+	
+
+	<delete id="removeOneFood" parameterType="int">
+		DELETE FROM cart
+		WHERE id = #{cartId}
+	</delete>
+	
+	
+	<update id="updateCartFoodCount" parameterType="map">
+		UPDATE cart
+		SET quantity = #{count}
+		WHERE id = #{cartId}
+	</update>
+	
+	<update id="updateCartFoodCheck" parameterType="map">
+		UPDATE cart
+		SET checked = #{check}
+		WHERE id = #{cartId}
+	</update>
+
+</mapper>

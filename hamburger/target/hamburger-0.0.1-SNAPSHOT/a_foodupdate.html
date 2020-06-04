@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>菜品修改后台</title>
+		<link rel="stylesheet"  href="css/bootstrap.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/bootstrap-responsive.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/a_foodadd.css" type="text/css" /> 
+	</head>
+	<body>
+		<div class="left">
+		<nav class="left ">
+					<ul class="nav nav-tabs">
+						<li><a href="index.html?cId=1" class="active"><i
+								class="batch home "></i><br />餐厅前台主页</a></li>
+						<li><a href="a-admin.html"><i class="batch stream"></i><br />管理员列表</a></li>
+						<li><a href="a-user.html"><i class="batch users"></i><br />用户列表</a></li>
+						
+						<li><a href="a_food.html"><i class="batch quill"></i><br />菜品列表</a></li>
+						<!-- <li><a href="orders.html"><i class="batch plane"></i><br />订单列表</a></li> -->
+					</ul>
+		</nav>
+		</div>
+		
+		<div id="newUserModal" class="">
+				<div class="modal-header">
+					<a type="button" href="./a_food.html" 
+						class="close">&times;</a>
+					<h3>修改菜品信息</h3>
+				</div>
+				<div class="modal-body">
+					<form id="formfile" class="form-horizontal"  enctype="multipart/form-data" >
+						<div class="control-group">
+							<label for="foodname"  class="control-label cc">菜品名称</label>
+							<div class="controls">
+								<input id="foodname" name="name" type="text" placeholder="请输入菜品名称" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="fooddetail"  class="control-label cc">菜品描述
+							</label>
+							<div class="controls">
+								<input id="fooddetail" name="detail" type="text"
+									placeholder="请输入菜品描述"  />
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="foodprice" class="control-label cc">菜品价格
+							</label>
+							<div class="controls">
+								<input id="foodprice" name="price" type="text"
+									placeholder="请输入价格" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="uploadFile" class="control-label cc">菜品主图
+							</label>
+							<div class="controls">
+								<input id="uploadFile" type="file" name="file"
+									placeholder="主图" />
+							</div>
+						</div> 
+						<div class="control-group">
+							<label for="stock" class="control-label cc">菜品库存
+							</label>
+							<div class="controls">
+								<input id="stock" type="number"
+									placeholder="请输入菜品库存量" name="stock"/>
+								<input id="pid" type="number" name="id"  style="display:none"/>
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="inputCurrentPassword" class="control-label cc">菜品类别
+							</label>
+							<div class="controls">
+								<select name="category_id">
+								
+									<option value="1">主食</option>
+									<option value="2">汤类</option>	
+									<option value="3">小吃</option>
+									<option value="4">甜品</option>	
+									<option value="5">饮料</option>	
+									<option value="6">套餐</option>		
+							</select>
+							</div>
+							
+						</div>
+						<div class="modal-footer left">
+							<a href="./a_food.html"  class="btn">关闭</a>
+							<a href="#" 
+								 class="btn btn-primary" id="updatefood"
+								value="添加商品" >确定修改</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		
+		
+		
+		
+		
+	<script src="js/jquery.min.js"></script>
+		<script>
+			
+		
+	   $("#updatefood").click(function(){
+			 var formData =  new FormData($("#formfile")[0])
+			/*  var fname=$("input[name='name']").val();
+			 
+			 var fdetail=$("input[name='detail']").val();
+			 var fprice=$("input[name='price']").val();
+			 var fstock=$("input[name='stock']").val();
+			 var fcid=$("input[name='category_id']").val();
+			  */
+			
+			 var url = window.location.href;
+			 var id = url.split("?")[1];
+			 console.log(id);
+			 $.ajax({
+					type:"post",
+					url:"manage/food/update.do",
+					data:
+						formData,
+					dataType:"json",
+					cache:false,
+					processData:false,
+					contentType:false,
+					success:function(response){
+						if(response.status==1){
+							alert("修改成功");
+							/* window.location.href ="./a_food.html"; */
+							return  window.location.href ="./a_food.html";
+						}
+						
+						
+					}
+			 })
+		
+			 return ;
+			
+			
+			
+			
+		})
+		  
+			
+			
+		
+		 
+		var url = window.location.href;
+		var pd = url.split("?")[1];
+		$.ajax({
+			type:"post",
+			url:"manage/food/detail.do",
+			data:{
+				pId:pd
+			},
+			dataType:"json",
+			success:function(response){
+				console.log(response);
+				var pros = response.data;
+				
+				$("#foodname").val(pros.name) ;
+				 $("#foodprice").val(pros.price) ;
+				$("#fooddetail").val(pros.detail) ; 
+				$("#stock").val(pros.stock) ; 
+				$("#pid").val(pros.id) ; 
+				 
+			}
+		})
+			
+
+		
+		
+		</script>
+			
+		
+		
+		
+		
+		
+	</body>
+</html>

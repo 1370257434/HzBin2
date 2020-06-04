@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>蟹堡王管理员后台</title>
+		<link rel="stylesheet"  href="css/bootstrap.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/bootstrap-responsive.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/a_foodadd.css" type="text/css" /> 
+	</head>
+	<body>
+		<div class="left">
+		<nav class="left ">
+					<ul class="nav nav-tabs">
+						<li><a href="index.html?cId=1" class="active"><i
+								class="batch home "></i><br />餐厅前台主页</a></li>
+						<li><a href="a-admin.html"><i class="batch stream"></i><br />管理员列表</a></li>
+						<li><a href="a-user.html"><i class="batch users"></i><br />用户列表</a></li>
+						
+						<li><a href="a_food.html"><i class="batch quill"></i><br />菜品列表</a></li>
+						<!-- <li><a href="orders.html"><i class="batch plane"></i><br />订单列表</a> --></li>
+					</ul>
+		</nav>
+		</div>
+		
+		<div id="newUserModal" class="">
+				<div class="modal-header">
+					<a type="button" href="./a-admin.html" 
+						class="close">&times;</a>
+					<h3>添加管理员</h3>
+				</div>
+				<div class="modal-body">
+					<form id="formfile" class="form-horizontal"  >
+						<div class="control-group">
+							<label for="inputEmail"  class="control-label cc">用户名</label>
+							<div class="controls">
+								<input type="text" placeholder="请输入您的用户名" name="username" id="username" class="text" >
+				<span id="userMsg" style="color:red"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="inputCurrentPassword"  class="control-label cc">手机号码
+							</label>
+							<div class="controls">
+								 <input type="text" placeholder="请输入您的手机号" name="nmuber" id="number" class="text" >
+                 <span id="numberMsg" style="color:red"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="inputCurrentPassword" class="control-label cc">密码
+							</label>
+							<div class="controls">
+								<input type="password" placeholder="请输入密码" name="pwd" id="psw" class="text">
+				  <span id="pswMsg" style="color:red"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							
+							<div class="controls">
+								<input type="hidden" placeholder="" name="role" id="role" class="text" value="1" disabled="disabled">
+				 
+							</div>
+						</div>
+						<!-- <div class="control-group">
+							<label for="stock" class="control-label cc">性别
+							</label>
+							<div class="controls">
+								<input type="text" placeholder="请输入性别 " name="sex" id="sex" class="text">
+				  <span id="sexMsg" style="color:red"></span>
+							</div>
+						</div>
+						
+						<div class="control-group">
+							<label for="stock" class="control-label cc">地址
+							</label>
+							<div class="controls">
+								<input type="text" placeholder="请输入地址 " name="address" id="address" class="text">
+				  <span id="addressMsg" style="color:red"></span>
+							</div>
+						</div> -->
+						
+						</div>
+						<div class="modal-footer left">
+							<a href="./a-admin.html"  class="btn">关闭</a>
+							<a href="./a-admin.html" 
+								 class="btn btn-primary" id="adduser"
+								value="添加商品" >确定添加</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		
+		
+		
+		
+		
+	<script src="js/jquery.min.js"></script>
+		<script>
+		$("#username").focusout(function(){
+			if("" == $(this).val()){
+				
+				$("#userMsg").text("用户名不能为空");
+				return;
+			}
+			$("#userMsg").text("");
+			$.ajax({
+				type:"post",
+				url:"manage/user/check.do",
+				data:{
+					val:$(this).val(),
+					type:"username"
+				},
+				dataType:"json",
+				success:function(response){
+				
+					if(response.status == 0){
+					
+						$("#userMsg").text("用户名已存在，重新输入");
+						$(this).val("");
+						return;
+					}
+					
+					}
+				})
+				
+
+		})
+	$("#number").focusout(function(){
+		if("" == $(this).val()){
+			
+			$("#numberMsg").text("手机号码不能为空");
+			return;
+		}
+		
+		var phone = $(this).val();
+	    if(!(/^1[3456789]\d{9}$/.test(phone))){ 
+	    	$("#numberMsg").text("手机号码有误，请重填");  
+	        return false; 
+	    } 
+	    $.ajax({
+			type:"post",
+			url:"manage/user/check.do",
+			data:{
+				val:$(this).val(),
+				type:"number"
+			},
+			dataType:"json",
+			success:function(response){
+			
+				if(response.status == 0){
+				
+					$("#numberMsg").text("号码已存在，重新输入");
+					$(this).val("");
+					return;
+				}
+				
+				}
+			})
+			$("#numberMsg").text("");
+		
+	})	
+		
+		$("#adduser").click(function(){
+			
+			if(""==$("#username").val() || $("#username").val().length == 0){
+				$("#userMsg").text("用户名不能为空");
+				return;
+			}
+			if(""==$("#number").val() || $("#number").val().length == 0){
+				$("#numberMsg").text("手机号码不能为空");
+				return;
+			}
+			if(""==$("#psw").val() || $("#psw").val().length == 0){
+				$("#pswMsg").text("密码不能为空");
+				return;
+			}
+			
+			
+			$("#pswMsg").text("");
+			$("#userMsg").text("");
+			$("#numberMsg").text("");
+			
+			$.ajax({
+				type:"post",
+				url:"manage/user/registerA.do",
+				data:{
+					userName:$("#username").val(),
+					passWord:$("#psw").val(),
+					number:$("#number").val(),
+					role:$("#role").val()
+				},
+				dataType:"json",
+				success:function(response){
+					console.log(response);
+					if(response.status == 1){
+						alert("添加成功");
+						window.location.href="a-admin.html";
+					}else{
+						alert(response.msg);
+					}
+					
+					}
+				})
+			
+		})
+	
+			
+
+		
+		
+		</script>
+			
+		
+		
+		
+		
+		
+	</body>
+</html>

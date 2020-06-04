@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>蟹堡王管理员后台</title>
+		<link rel="stylesheet"  href="css/bootstrap.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/bootstrap-responsive.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/a-admin.css" type="text/css" /> 
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.js"></script>
+	</head>
+	<body>
+		<div class="left">
+		<nav class="left ">
+					<ul class="nav nav-tabs">
+						<li><a href="index.html?cId=1" class="active"><i
+								class="batch home "></i><br />餐厅前台主页</a></li>
+						<li><a href="a-admin.html"><i class="batch stream"></i><br />管理员列表</a></li>
+						<li><a href="a-user.html"><i class="batch users"></i><br />用户列表</a></li>
+						
+						<li><a href="a_food.html"><i class="batch quill"></i><br />菜品列表</a></li>
+						<!-- <li><a href="orders.html"><i class="batch plane"></i><br />订单列表</a></li> -->
+						
+					</ul>
+		</nav>
+		</div>
+		<div class="span12 main">
+						<a href="a-adminadd.html"  class="btn pull-right">添加管理员</a>
+						<h4 class="header">管理员列表</h4>
+						<table class="table table-striped sortable table-hover">
+							<thead>
+								<tr>
+									<th>管理员ID</th>
+									<th>管理员用户名</th>
+									<th>电话号码</th>
+
+								</tr>
+							</thead>
+							<tbody id="tb">
+							
+							</tbody>
+						</table>
+						<div class="pagination pagination-centered">
+							<ul id="pages">
+								<!-- <li class="disabled"><a href="#">&laquo;</a></li>
+								<li class="active"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">&raquo;</a></li> -->
+							</ul>
+						</div>
+					</div>
+					
+					
+					
+					
+					
+	<script src="js/jquery.min.js"></script>
+		<script>
+			
+		//分装分页方法
+		function page(pn){
+			var currentPage = pn;
+			$.ajax({
+				type:"post",
+				url:"manage/user/admin/list.do",
+				data:{
+					pageNum:pn,
+					pageSize:"3"
+				},
+				dataType:"json",
+				success:function(response){
+					var data = response.data.list;
+					$("#tb").empty();
+					for(var i=0;i<data.length;i++){
+						var tablerow = $("<tr></tr>");
+						tablerow.append("<td>"+data[i].id+"</td>");
+						tablerow.append("<td>"+data[i].userName+"</td>");
+						tablerow.append("<td>"+data[i].number+"</td>");
+						$("#tb").append(tablerow);
+					}
+					$("#pages").empty();
+					var nums = response.data.navigatepageNums;
+					/* for(var i=0;i<nums.length;i++){
+						
+						$("#pages").append("<li  onclick =' page("+nums[i]+")'><a>"+nums[i]+"</a></li>");
+					} */
+					if(currentPage == response.data.firstPage){
+						$("#pages").append("<li class='disabled'><a href='#'>&laquo;</a></li>");
+					}else{
+						$("#pages").append("<li onclick = 'page("+(currentPage-1)+")'><a href='#'>&laquo;</a></li>");
+					}
+				
+					for(var i=0;i<nums.length;i++){
+						$("#pages").append("<li  onclick =' page("+nums[i]+")'><a>"+nums[i]+"</a></li>");
+					}
+					if(currentPage ==  response.data.lastPage){
+						$("#pages").append("<li class='disabled'><a href='#'>&raquo;</a></li>");
+					}else{
+						$("#pages").append("<li onclick = 'page("+(currentPage+1)+")'><a href='#'>&raquo;</a></li>");
+					}
+					
+				}
+				
+				
+			})
+			
+		}
+		page(1);
+		
+	
+			
+
+		
+		
+		</script>
+		
+	</body>
+</html>

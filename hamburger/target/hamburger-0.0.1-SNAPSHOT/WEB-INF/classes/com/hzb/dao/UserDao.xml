@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzb.dao.UserDao">
+
+	<select id="queryAllUser" resultType="user">
+		SELECT * FROM user3
+		WHERE role = 0
+	</select>
+	
+	<select id="queryAllAUser" resultType="user">
+		SELECT * FROM user3 
+		WHERE role = 1
+	</select>
+	
+	<select id="queryUserByUserNameAndPsw" resultType="user"
+		parameterType="user">
+		SELECT * FROM user3  WHERE  username = #{userName}
+		AND password = #{passWord}
+		AND role = 1
+	</select>
+	
+	<insert id="addOneUser" parameterType="user"> 
+		INSERT INTO user3
+		(username,password,number)
+		VALUES
+		(#{userName},#{passWord},#{number})
+	</insert>
+	
+	<insert id="addOneAUser" parameterType="user"> 
+		INSERT INTO user3
+		(username,password,number,role)
+		VALUES
+		(#{userName},#{passWord},#{number},#{role})
+	</insert>
+	
+	
+	<select id="cheackNameOrNumberExists" parameterType="user"
+		resultType="user">
+		SELECT * FROM user3
+		<where>
+			<if test="userName != null">
+				AND username = #{userName}
+			</if>
+			<if test="number != null">
+				AND number = #{number}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="queryNameAndPsw" resultType="user"
+		parameterType="user">
+		SELECT * FROM user3  WHERE  username = #{userName}
+		AND password = #{passWord}
+		AND role = 0
+	</select>
+	
+</mapper>

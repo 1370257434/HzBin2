@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>蟹堡王登录</title>
+<link rel="stylesheet"  href="css/login.css" type="text/css" /> 
+<link rel="stylesheet"  href="css/bootstrap.css" type="text/css" /> 
+<link rel="stylesheet"  href="css/bootstrap-responsive.css" type="text/css" /> 
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+</head>
+
+<body>
+<div class="container">
+		
+
+			<div class="sideright">
+				<div class="index">
+                
+					<p class="headline">登录</p>
+					<p class="astyle">我的账号：</p>
+				  <input type="text" placeholder="请输入您的账号" name="name" id="username" class="text">
+               		<p class="astyle">输入密码：</p>
+				  <input type="password" placeholder="请输入密码" name="pwd" id="password" class="text" >
+                 	
+                 	<div class="btn-group" style="margin-left: 25%;">
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 10px;width:100px">
+						    登录选择 <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu">
+						    <li><a id="userlogin-btn" style="cursor: pointer;">会员登录</a></li>
+						    <li><a id="login-btn"style="cursor: pointer;">管理员登录</a></li>
+						    
+						  </ul>
+				  </div>
+				  <div>
+				<p class="cstyle">还未注册？<a href="register.html">立即注册</a></p></div>
+				</div>
+			 </div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script>
+			$(function(){
+				
+				$("#username").focusout(function(){
+					if(null == $(this).val() || $(this).val().length == 0){
+					
+						alert("用户名不能为空");
+						return;
+					}
+					});
+				$("#password").focusout(function(){
+					if(null == $(this).val() || $(this).val().length == 0){
+					
+						alert("密码不能为空");
+						return;
+					}
+					});
+				
+		$("#login-btn").click(function(){
+			
+			$.ajax({
+				type:"post",
+				url:"manage/user/login.do",
+				data:{
+					
+					userName:$("#username").val(),
+					psw:$("#password").val()
+				},
+				dataType:"json",
+				success:function(response){
+					
+					if (response.status == 1){
+						alert("登陆成功");
+						window.location.href ="a-food.html"
+						
+						
+						} else if(response.status == 0){
+							alert("用户名或密码错误");
+							$("#username").val("");
+							$("#password").val("");
+							
+						}
+				}
+				
+				
+			})
+			
+		})
+		
+		$("#userlogin-btn").click(function(){
+			
+			$.ajax({
+				type:"post",
+				url:"manage/user/user/login.do",
+				data:{
+					
+					username:$("#username").val(),
+					psw:$("#password").val()
+				},
+				dataType:"json",
+				success:function(response){
+					
+					if (response.status == 1){
+						alert("登陆成功");
+						window.location.href ="index.html?cId=1"
+						
+						} else if(response.status == 0){
+							alert("用户名或密码错误");
+							$("#username").val("");
+							$("#password").val("");
+							
+						}
+				}
+				
+				
+			})
+			
+		})
+				
+				
+					
+			
+			})
+			
+			
+		
+		</script>
+
+</body>
+</html>
+

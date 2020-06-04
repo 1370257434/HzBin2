@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>蟹堡王</title>
+		<link rel="stylesheet"  href="css/index.css" type="text/css" />
+		<link rel="stylesheet"  href="css/bootstrap.css" type="text/css" /> 
+		<link rel="stylesheet"  href="css/bootstrap-responsive.css" type="text/css" /> 
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.js"></script>  
+		
+	</head>
+	
+	<body>
+		
+	<div class="left">
+		<div id="l-top">
+		      <img src="img/logo.jpg" />  
+		      <h4>蟹堡王</h4>
+		</div>
+		<div id="l-user">
+			<p>服务员编号：</p>
+			<hr />
+			<p>台号:</p>
+		</div>
+		<div id="l-menu">
+			
+				<div><a href="index.html">新品尝鲜</a> </div>
+			<div><a href="index.html?cId=6">经典套餐</a> </div>
+			<div><a href="car.html">已选</a> </div>
+			<div><a href="#">订单</a> </div>
+			</div>
+		</div>
+		<div id="l-botton" style="background:url(img/exit.jpg); width: 28px; height:26px; background-size: 100% 100%;
+height: 28px;">
+			
+			<a href="login.html" style="color:gray;height:100%"></a>
+		</div> 
+		
+	</div>
+	
+	
+	<div class="top">
+		<ul>
+			<li><a href="index.html?cId=1">主食</a></li>
+			<li><a href="index.html?cId=2">汤类</a></li>
+			<li><a href="index.html?cId=3">小吃</a></li>
+			<li><a href="index.html?cId=4">甜品</a></li>
+			<li><a href="index.html?cId=5">饮料</a></li>
+		</ul>
+		<div class="search">
+			<div><input id="keywords" type="text" name="keywords"  placeholder="请输入搜索关键字"/></div>
+			<div id="search">搜索</div>
+		</div>
+	</div>
+	<div class="main" id="mainfood">
+		<ul class="m-top" id="m-top"></ul>
+	
+	
+		<div class="pagination pagination-centered">
+							<ul id="pages">
+								<!--  <li class="disabled"><a href="#">&laquo;</a></li>
+								<li class="active"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#">&raquo;</a></li> -->
+							</ul>
+	</div>
+		
+	</div>
+	
+	
+	</body>
+	
+<script src="js/jquery.min.js"></script>
+		<script>
+	/* var url = window.location.href;
+	var cid = url.split("=")[1];
+	$.ajax({
+		type:"post",
+		url:"manage/food/user/list.do",
+		data:{
+			cId:cid
+		},
+		dataType:"json",
+		success:function(response){
+			console.log(response);
+			var pros = response.data.list;
+			
+			for(var i=0;i<pros.length;i++){
+				var lis = $("<li></li>");
+				if(i<3){
+				lis.append("<div style='float:left' class='pro-img'><img style='height:90%; width:100%' title='Freature Product' alt='Freature Product' src='/upload/"+pros[i].main_image+"'/></div>");
+				lis.append("<div class='pro-content'><p> &nbsp"+pros[i].name+"</p></div>");
+				lis.append("<div class='pro-price'><p>￥"+pros[i].price+"</p></div>");
+				lis.append("<div class='pro-detail'><a class='abtn' href='food.html?pId="+pros[i].id+"'>查看详情</a></div>");
+				$("#mainfood ul:first").append(lis);
+				}else{
+					lis.append("<div style='float:left' class='pro-img'><img style='height:90%; width:100%' title='Freature Product' alt='Freature Product' src='/upload/"+pros[i].main_image+"'/></div>");
+					lis.append("<div class='pro-content'><p> &nbsp"+pros[i].name+"</p></div>");
+					lis.append("<div class='pro-price'><p>￥"+pros[i].price+"</p></div>");
+					lis.append("<div class='pro-detail'><a class='abtn' href='food.html?pId="+pros[i].id+"'>查看详情</a></div>");
+					
+					$("#mainfood ul:eq(1)").append(lis);
+				}
+				 $("#pages").empty();
+				var nums = response.data.navigatepageNums;
+				if(currentPage == response.data.firstPage){
+					$("#pages").append("<li class='disabled'><a href='#'>&laquo;</a></li>");
+				}else{
+					$("#pages").append("<li onclick = 'page("+(currentPage-1)+")'><a href='#'>&laquo;</a></li>");
+				}
+			
+				for(var i=0;i<nums.length;i++){
+					$("#pages").append("<li  onclick =' page("+nums[i]+")'><a>"+nums[i]+"</a></li>");
+				}
+				if(currentPage ==  response.data.lastPage){
+					$("#pages").append("<li class='disabled'><a href='#'>&raquo;</a></li>");
+				}else{
+					$("#pages").append("<li onclick = 'page("+(currentPage+1)+")'><a href='#'>&raquo;</a></li>");
+				} 
+			}
+			
+		}
+	})
+	page(1); */
+	
+
+	var href = window.location.href;
+	var keyWord = decodeURI(href.split("?")[1].split("=")[1]);
+
+	 function page(pn){
+		
+	var currentPage = pn;
+	
+	
+	$.ajax({
+		type:"post",
+		url:"manage/food/search.do",
+		data:{
+			proName:keyWord,
+			pageNum:pn,
+			pageSize:"6"
+		},
+		dataType:"json",
+		success:function(response){
+			console.log(response);
+         var pros = response.data.list;
+         $("#mainfood ul").empty();
+			for(var i=0;i<pros.length;i++){
+				var lis = $("<li></li>");
+			
+					lis.append("<div style='float:left' class='pro-img'><img style='height:90%; width:100%' title='Freature Product' alt='Freature Product' src='/upload/"+pros[i].main_image+"'/></div>");
+					lis.append("<div class='pro-content'><p> &nbsp"+pros[i].name+"</p></div>");
+					lis.append("<div class='pro-price'><p>￥"+pros[i].price+"</p></div>");
+					lis.append("<div class='pro-detail' style='line-height:35px'><a class='abtn' href='food.html?pId="+pros[i].id+"'>查看详情</a></div>");
+					$("#mainfood ul").append(lis);
+					
+					}
+				
+				$("#pages").empty();
+				var nums = response.data.navigatepageNums;
+				if(currentPage == response.data.firstPage){
+					$("#pages").append("<li class='disabled'><a>&laquo;</a></li>");
+				}else{
+					$("#pages").append("<li onclick = 'page("+(currentPage-1)+")'><a >&laquo;</a></li>");
+				}
+			
+				for(var i=0;i<nums.length;i++){
+					$("#pages").append("<li  onclick =' page("+nums[i]+")'><a>"+nums[i]+"</a></li>");
+				}
+				if(currentPage ==  response.data.lastPage){
+					$("#pages").append("<li class='disabled'><a>&raquo;</a></li>");
+				}else{
+					$("#pages").append("<li onclick = 'page("+(currentPage+1)+")'><a>&raquo;</a></li>");
+				} 
+				
+			}
+			
+		})
+	
+	
+	
+	}page(1);
+	 
+
+	 $("#search").click(function(){
+		 
+			var keyVal = $("#keywords").val();
+			if(null == keyVal || "" == keyVal || keyVal.length == 0 ){
+				alert("您还没有输入关键字");
+				return;
+				
+			}
+			 
+			var uri = encodeURI("index_search.html?keywords="+keyVal);
+			window.location.href = uri;
+			
+			
+			
+		})
+	
+</script>
+</html>
